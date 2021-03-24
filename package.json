@@ -17,10 +17,17 @@
   },
   "homepage": "https://github.com/lucacucchetti/recommendations#readme",
   "dependencies": {
+    "aws-sdk": "^2.869.0",
+    "body-parser": "^1.19.0",
+    "ejs": "^3.1.6",
     "express": "^4.17.1",
-    "serverless-http": "^2.7.0"
+    "express-ejs-layouts": "^2.5.0",
+    "serverless": "^2.31.0",
+    "serverless-http": "^2.7.0",
+    "uuid": "^8.3.2"
   },
   "devDependencies": {
+    "serverless-dynamodb-local": "^0.2.39",
     "serverless-offline": "^6.8.0"
   }
 }

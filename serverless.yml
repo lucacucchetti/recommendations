@@ -1,17 +1,55 @@
 service: recommendations
 
+custom:
+  tableName: "recommendations-table-${self:provider.stage}"
+  dynamodb:
+    stages:
+      - dev
+    start:
+      migrate: true
+
 provider:
   name: aws
   runtime: nodejs12.x
   stage: dev
   region: eu-west-2
+  iamRoleStatements:
+    - Effect: Allow
+      Action:
+        - dynamodb:Query
+        - dynamodb:Scan
+        - dynamodb:GetItem
+        - dynamodb:PutItem
+        - dynamodb:UpdateItem
+        - dynamodb:DeleteItem
+      Resource:
+        - { "Fn::GetAtt": ["RecommendationsDynamoDBTable", "Arn"] }
+  environment:
+    RECOMMENDATIONS_TABLE: ${self:custom.tableName}
 
 functions:
   app:
     handler: index.handler
     events:
       - http: ANY /
-      - http: 'ANY {proxy+}'
+      - http: "ANY /{proxy+}"
+
+resources:
+  Resources:
+    RecommendationsDynamoDBTable:
+      Type: "AWS::DynamoDB::Table"
+      Properties:
+        AttributeDefinitions:
+          - AttributeName: id
+            AttributeType: S
+        KeySchema:
+          - AttributeName: id
+            KeyType: HASH
+        ProvisionedThroughput:
+          ReadCapacityUnits: 1
+          WriteCapacityUnits: 1
+        TableName: ${self:custom.tableName}
 
 plugins:
+  - serverless-dynamodb-local
   - serverless-offline
