@@ -6,12 +6,16 @@
   </div>
 </div>
 
-<% recommendations.forEach(recommendation => { %> 
-  <div class="card bg-light mb-3">
-    <div class="card-body">
-      <h5 class="card-title"><%= recommendation.title %></h5>
-      <p class="card-text"><%= recommendation.description %></p>
+<div class="row col-sm-9 mx-auto">
+  <% recommendations.forEach(recommendation => { %>
+  <div class="col-sm-6">
+    <div class="card bg-light m-3">
+      <div class="card-body">
+        <h5 class="card-title"><%= recommendation.title %></h5>
+        <p class="card-text"><%= recommendation.description %></p>
+      </div>
+      <div class="card-footer text-muted text-right"><%= recommendation.author %></div>
     </div>
-    <div class="card-footer text-muted text-right"><%= recommendation.author %></div>
   </div>
-<% }) %> 
+  <% }) %>
+</div>
