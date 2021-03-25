@@ -25,12 +25,11 @@ app.use(expressLayouts);
 app.set('view engine', 'ejs');
 
 // app.use(express.static('public'));
-app.get('/', function (req, res) {
+app.get('/recommendations', function (req, res) {
   dynamoDb
     .scan({ TableName: RECOMMENDATIONS_TABLE })
     .promise()
     .then((data) => {
-      console.log('Returning recommendations');
       res.render('index', { recommendations: data.Items });
       // res.send(html.replace('REPLACE_ME', recommendationCards(data.Items)));
     })
@@ -57,7 +56,7 @@ app.post('/recommendations', function (req, res) {
       console.log(error);
       res.status(400).json({ error: 'Could not create recommendation' });
     }
-    res.redirect('/');
+    res.redirect('/dev/recommendations');
   });
 });
 

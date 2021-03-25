@@ -1,7 +1,7 @@
 service: recommendations
 
 custom:
-  tableName: "recommendations-table-${self:provider.stage}"
+  tableName: 'recommendations-table-${self:provider.stage}'
   dynamodb:
     stages:
       - dev
@@ -23,7 +23,7 @@ provider:
         - dynamodb:UpdateItem
         - dynamodb:DeleteItem
       Resource:
-        - { "Fn::GetAtt": ["RecommendationsDynamoDBTable", "Arn"] }
+        - { 'Fn::GetAtt': ['RecommendationsDynamoDBTable', 'Arn'] }
   environment:
     RECOMMENDATIONS_TABLE: ${self:custom.tableName}
 
@@ -31,13 +31,17 @@ functions:
   app:
     handler: index.handler
     events:
-      - http: GET /
-      - http: POST /recommendations
+      - http:
+          path: /recommendations
+          method: get
+      - http:
+          path: /recommendations
+          method: post
 
 resources:
   Resources:
     RecommendationsDynamoDBTable:
-      Type: "AWS::DynamoDB::Table"
+      Type: 'AWS::DynamoDB::Table'
       Properties:
         AttributeDefinitions:
           - AttributeName: id
