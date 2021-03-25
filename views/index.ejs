@@ -19,3 +19,13 @@
   </div>
   <% }) %>
 </div>
+
+<form action="/recommendations" method="POST">
+  <label for="title">Título:</label><br />
+  <input type="text" id="title" name="title" /><br />
+  <label for="description">Descripción:</label><br />
+  <input type="text" id="description" name="description" />
+  <label for="author">Autor:</label><br />
+  <input type="text" id="author" name="author" /><br />
+  <input type="submit" value="Submit" />
+</form>

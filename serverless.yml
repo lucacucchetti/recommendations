@@ -31,8 +31,8 @@ functions:
   app:
     handler: index.handler
     events:
-      - http: ANY /
-      - http: "ANY /{proxy+}"
+      - http: GET /
+      - http: POST /recommendations
 
 resources:
   Resources:

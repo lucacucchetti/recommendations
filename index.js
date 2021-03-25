@@ -19,6 +19,7 @@ if (IS_OFFLINE === 'true') {
 }
 
 app.use(express.json({ strict: false }));
+app.use(express.urlencoded({ extended: false }));
 app.use(expressLayouts);
 
 app.set('view engine', 'ejs');
@@ -56,7 +57,7 @@ app.post('/recommendations', function (req, res) {
       console.log(error);
       res.status(400).json({ error: 'Could not create recommendation' });
     }
-    res.json({ title, description, author });
+    res.redirect('/');
   });
 });
 
