@@ -24,19 +24,16 @@ app.use(expressLayouts);
 
 app.set('view engine', 'ejs');
 
-// app.use(express.static('public'));
 app.get('/recommendations', function (req, res) {
   dynamoDb
     .scan({ TableName: RECOMMENDATIONS_TABLE })
     .promise()
     .then((data) => {
-      res.render('index', { recommendations: data.Items });
-      // res.send(html.replace('REPLACE_ME', recommendationCards(data.Items)));
+      res.render('index', { recommendations: data.Items.sort((a, b) => b.epoch - a.epoch) });
     })
     .catch(console.error);
 });
 
-// Add recommendation endpoint
 app.post('/recommendations', function (req, res) {
   const { title, description, author } = req.body;
 

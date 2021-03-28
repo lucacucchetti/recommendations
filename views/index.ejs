@@ -2,10 +2,26 @@
   <div class="col-md-12 p-lg-12 mx-auto my-12">
     <h1 class="display-4 font-weight-normal">Recomendaciones</h1>
     <p class="lead font-weight-normal">¿Sin ideas de qué ver?</p>
-    <a class="btn btn-outline-secondary" href="recommendations">Recomendar algo</a>
+    <a class="btn btn-outline-secondary" id="recommendButton">Recomendar algo</a>
   </div>
 </div>
 
+<div id="recommendForm" class="d-none row col-sm-4 mx-auto">
+  <div class="col-sm">
+    <div class="card bg-light m-3">
+      <form action="/dev/recommendations" method="POST">
+        <div class="card-body">
+          <input class="card-title" type="text" id="title" name="title" /><br />
+          <input class="card-text" type="text" id="description" name="description" /><br />
+        </div>
+        <div class="card-footer">
+          <input type="text" id="author" name="author" />
+          <input class="float-right" type="submit" value="Submit" />
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
 <div class="row col-sm-9 mx-auto">
   <% recommendations.forEach(recommendation => { %>
   <div class="col-sm-6">
@@ -19,13 +35,3 @@
   </div>
   <% }) %>
 </div>
-
-<form action="/dev/recommendations" method="POST">
-  <label for="title">Título:</label><br />
-  <input type="text" id="title" name="title" /><br />
-  <label for="description">Descripción:</label><br />
-  <input type="text" id="description" name="description" />
-  <label for="author">Autor:</label><br />
-  <input type="text" id="author" name="author" /><br />
-  <input type="submit" value="Submit" />
-</form>
