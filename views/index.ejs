@@ -8,15 +8,15 @@
 
 <div id="recommendForm" class="d-none row col-sm-4 mx-auto">
   <div class="col-sm">
-    <div class="card bg-light m-3">
+    <div class="card bg-light m-3 form-group">
       <form action="/dev/recommendations" method="POST">
         <div class="card-body">
-          <input class="card-title" type="text" id="title" name="title" /><br />
-          <input class="card-text" type="text" id="description" name="description" /><br />
+          <input class="card-title form-control" placeholder="Título" type="text" id="title" name="title" /><br />
+          <textarea class="form-control" class="card-text" placeholder="Descripción" id="description" name="description" ></textarea><br />
         </div>
         <div class="card-footer">
-          <input type="text" id="author" name="author" />
-          <input class="float-right" type="submit" value="Recomendar" />
+          <input class="form-control mb-1" type="text" placeholder="Autor" id="author" name="author" />
+          <input class="form-control btn btn-outline-primary" type="submit" value="Recomendar" />
         </div>
       </form>
     </div>
