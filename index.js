@@ -57,4 +57,20 @@ app.post('/recommendations', function (req, res) {
   });
 });
 
+app.post('/recommendations/delete', function (req, res) {
+  const { id } = req.body;
+
+  const params = {
+    TableName: RECOMMENDATIONS_TABLE,
+    Key: { id },
+  };
+
+  dynamoDb.delete(params, (error) => {
+    if (error) {
+      console.log(error);
+      res.status(400).json({ error: `Could not delete recommendation [${id}]` });
+    }
+    res.redirect('/dev/recommendations');
+  });
+});
 module.exports.handler = serverless(app);

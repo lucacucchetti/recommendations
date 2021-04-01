@@ -37,6 +37,9 @@ functions:
       - http:
           path: /recommendations
           method: post
+      - http:
+          path: /recommendations/delete
+          method: post
 
 resources:
   Resources:
