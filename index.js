@@ -34,7 +34,7 @@ app.get('/recommendations', function (req, res) {
     .catch(console.error);
 });
 
-app.post('/recommendations', function (req, res) {
+app.post('/recommendations/create', function (req, res) {
   const { title, description, author } = req.body;
 
   const params = {
@@ -53,7 +53,7 @@ app.post('/recommendations', function (req, res) {
       console.log(error);
       res.status(400).json({ error: 'Could not create recommendation' });
     }
-    res.redirect('/dev/recommendations');
+    res.redirect('/recommendations');
   });
 });
 
@@ -70,7 +70,7 @@ app.post('/recommendations/delete', function (req, res) {
       console.log(error);
       res.status(400).json({ error: `Could not delete recommendation [${id}]` });
     }
-    res.redirect('/dev/recommendations');
+    res.redirect('/recommendations');
   });
 });
 module.exports.handler = serverless(app);

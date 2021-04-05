@@ -9,7 +9,7 @@
 <div id="recommendForm" class="d-none row col-sm-4 mx-auto">
   <div class="col-sm">
     <div class="card bg-light m-3 form-group">
-      <form action="/dev/recommendations" method="POST">
+      <form action="/recommendations/create" method="POST">
         <div class="card-body">
           <input class="card-title form-control" placeholder="Título" type="text" id="title" name="title" /><br />
           <textarea class="form-control" class="card-text" placeholder="Descripción" id="description" name="description" ></textarea><br />
@@ -31,7 +31,7 @@
         <p class="card-text"><%= recommendation.description %></p>
       </div>
       <div class="card-footer text-muted">
-        <form action="/dev/recommendations/delete" method="POST">
+        <form action="/recommendations/delete" method="POST">
           <span><button class="btn float-left" type="submit"><i class="float-left bi bi-trash-fill"></i></button><p class="float-right"><%= recommendation.author %></p></span>
           <input hidden type="textbox" name="id" value="<%= recommendation.id %>" readonly="readonly" />
         </form>

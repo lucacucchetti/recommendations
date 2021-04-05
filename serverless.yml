@@ -7,6 +7,13 @@ custom:
       - dev
     start:
       migrate: true
+  customDomain:
+    domainName: 'cucchetti.link'
+    basePath: ''
+    stage: ${self:provider.stage}
+    createRoute53Record: true
+  serverless-offline:
+    noPrependStageInUrl: true
 
 provider:
   name: aws
@@ -35,7 +42,7 @@ functions:
           path: /recommendations
           method: get
       - http:
-          path: /recommendations
+          path: /recommendations/create
           method: post
       - http:
           path: /recommendations/delete
@@ -60,3 +67,4 @@ resources:
 plugins:
   - serverless-dynamodb-local
   - serverless-offline
+  - serverless-domain-manager
