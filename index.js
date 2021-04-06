@@ -5,6 +5,8 @@ const AWS = require('aws-sdk');
 const { v4: uuidv4 } = require('uuid');
 const app = express();
 
+const basePath = 'recommendations';
+
 const RECOMMENDATIONS_TABLE = process.env.RECOMMENDATIONS_TABLE;
 const IS_OFFLINE = process.env.IS_OFFLINE;
 let dynamoDb;
@@ -24,7 +26,7 @@ app.use(expressLayouts);
 
 app.set('view engine', 'ejs');
 
-app.get('/recommendations', function (req, res) {
+app.get(`/${basePath}`, function (req, res) {
   dynamoDb
     .scan({ TableName: RECOMMENDATIONS_TABLE })
     .promise()
@@ -34,7 +36,7 @@ app.get('/recommendations', function (req, res) {
     .catch(console.error);
 });
 
-app.post('/recommendations/create', function (req, res) {
+app.post(`/${basePath}/create`, function (req, res) {
   const { title, description, author } = req.body;
 
   const params = {
@@ -53,11 +55,11 @@ app.post('/recommendations/create', function (req, res) {
       console.log(error);
       res.status(400).json({ error: 'Could not create recommendation' });
     }
-    res.redirect('/recommendations');
+    res.redirect(`/${basePath}`);
   });
 });
 
-app.post('/recommendations/delete', function (req, res) {
+app.post(`/${basePath}/delete`, function (req, res) {
   const { id } = req.body;
 
   const params = {
@@ -70,7 +72,7 @@ app.post('/recommendations/delete', function (req, res) {
       console.log(error);
       res.status(400).json({ error: `Could not delete recommendation [${id}]` });
     }
-    res.redirect('/recommendations');
+    res.redirect(`/${basePath}`);
   });
 });
 module.exports.handler = serverless(app);
