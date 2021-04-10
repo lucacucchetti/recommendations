@@ -31,7 +31,7 @@
         <p class="card-text"><%= recommendation.description %></p>
       </div>
       <div class="card-footer text-muted">
-        <form action="/recommendations/delete" method="POST">
+        <form action="/recommendations/delete" method="POST" onsubmit="return confirm('Seguro?');">
           <span><button class="btn float-left" type="submit"><i class="float-left bi bi-trash-fill"></i></button><p class="float-right"><%= recommendation.author %></p></span>
           <input hidden type="textbox" name="id" value="<%= recommendation.id %>" readonly="readonly" />
         </form>
