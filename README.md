@@ -8,6 +8,7 @@ https://nodejs.org/en/
 
 ```
 npm install
+npx serverless dynamodb install
 ```
 
 * For local development:
