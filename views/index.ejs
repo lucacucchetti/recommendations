@@ -1,9 +1,10 @@
-<div class="position-relative overflow-hidden p-4 text-center bg-light">
-  <div class="col-md-12 p-lg-12 mx-auto my-12">
+<div class="position-relative overflow-hidden p-4 bg-light text-left">
+    <button type="button" class="btn btn-info float-right" data-toggle="modal" data-target="#userModal">
+      Tu Nombre
+    </button>  
     <h1>Recomendaciones</h1>
     <p>¿Sin ideas de qué ver?</p>
     <a class="btn btn-outline-secondary" id="recommendButton">Recomendar algo</a>
-  </div>
 </div>
 
 <div id="recommendForm" class="d-none row col-sm-4 mx-auto">
@@ -12,7 +13,7 @@
       <form action="/recommendations/create" method="POST">
         <div class="card-body">
           <input class="card-title form-control" placeholder="Título" type="text" id="title" name="title" /><br />
-          <textarea class="form-control" class="card-text" placeholder="Descripción" id="description" name="description" ></textarea><br />
+          <textarea class="form-control" class="card-text" placeholder="Descripción" id="description" name="description"></textarea><br />
         </div>
         <div class="card-footer">
           <input class="form-control mb-1" type="text" placeholder="Autor" id="author" name="author" />
@@ -23,20 +24,49 @@
   </div>
 </div>
 <div class="row col-sm-9 mx-auto">
-  <% recommendations.forEach(recommendation => { %>
-  <div class="col-sm-6">
-    <div class="card bg-light m-3">
-      <div class="card-body">
-        <h5 class="card-title"><%= recommendation.title %></h5>
-        <p class="card-text"><%= recommendation.description %></p>
+  <% recommendations.forEach(recommendation=> { %>
+    <div id=<%=recommendation.id %> class="col-sm-6">
+      <div class="card bg-light m-3">
+        <div class="card-body">
+          <div class="like_button" data-id=<%=recommendation.id %> data-votes=<%= JSON.stringify(recommendation.votes) %> ></div>
+          <h5 class="card-title">
+            <%= recommendation.title %>
+          </h5>
+          <p class="card-text">
+            <%= recommendation.description %>
+          </p>
+        </div>
+        <div class="card-footer text-muted">
+          <form action="/recommendations/delete" method="POST" onsubmit="return confirm('Seguro?');">
+            <span><button class="btn float-left" type="submit"><i class="float-left bi bi-trash-fill"></i></button>
+              <p class="float-right">
+                <%= recommendation.author %>
+              </p>
+            </span>
+            <input hidden type="textbox" name="id" value="<%= recommendation.id %>" readonly="readonly" />
+          </form>
+        </div>
       </div>
-      <div class="card-footer text-muted">
-        <form action="/recommendations/delete" method="POST" onsubmit="return confirm('Seguro?');">
-          <span><button class="btn float-left" type="submit"><i class="float-left bi bi-trash-fill"></i></button><p class="float-right"><%= recommendation.author %></p></span>
-          <input hidden type="textbox" name="id" value="<%= recommendation.id %>" readonly="readonly" />
-        </form>
+    </div>
+    <% }) %>
+</div>
+
+<div class="modal fade" id="userModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered modal-sm" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Decinos tu nombre</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        Cuando votás los votos son en tu nombre.
+      </div>
+      <div class="modal-footer user_form">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-info"><i class="bi bi-person-check"></i></button>
       </div>
     </div>
   </div>
-  <% }) %>
 </div>
