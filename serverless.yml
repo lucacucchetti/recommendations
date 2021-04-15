@@ -17,7 +17,7 @@ custom:
 
 provider:
   name: aws
-  runtime: nodejs12.x
+  runtime: nodejs14.x
   stage: dev
   region: eu-west-2
   iamRoleStatements:
@@ -47,6 +47,15 @@ functions:
       - http:
           path: /recommendations/delete
           method: post
+      - http:
+          path: /recommendations/vote
+          method: post
+      - http:
+          path: /recommendations/remove-vote
+          method: post
+      - http:
+          path: /recommendations/static/{proxy+}
+          method: get
 
 resources:
   Resources:

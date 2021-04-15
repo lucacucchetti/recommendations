@@ -14,12 +14,16 @@ if (IS_OFFLINE === 'true') {
   dynamoDb = new AWS.DynamoDB.DocumentClient({
     region: 'localhost',
     endpoint: 'http://localhost:8000',
+    httpOptions: {
+      timeout: 1000,
+    },
   });
   console.log(dynamoDb);
 } else {
   dynamoDb = new AWS.DynamoDB.DocumentClient();
 }
 
+app.use(`/${basePath}/static`, express.static('public'));
 app.use(express.json({ strict: false }));
 app.use(express.urlencoded({ extended: false }));
 app.use(expressLayouts);
@@ -33,7 +37,10 @@ app.get(`/${basePath}`, function (req, res) {
     .then((data) => {
       res.render('index', { recommendations: data.Items.sort((a, b) => b.epoch - a.epoch) });
     })
-    .catch(console.error);
+    .catch((error) => {
+      console.error(error);
+      res.status(500).json({ error: 'Something went wrong.' });
+    });
 });
 
 app.post(`/${basePath}/create`, function (req, res) {
@@ -46,7 +53,7 @@ app.post(`/${basePath}/create`, function (req, res) {
       title: title,
       description: description,
       author: author,
-      epoch: new Date().getTime(),
+      epoch: Date.now(),
     },
   };
 
@@ -73,6 +80,44 @@ app.post(`/${basePath}/delete`, function (req, res) {
       res.status(400).json({ error: `Could not delete recommendation [${id}]` });
     }
     res.redirect(`/${basePath}`);
+  });
+});
+
+app.post(`/${basePath}/vote`, function (req, res) {
+  const { id, who } = req.body;
+
+  const params = {
+    TableName: RECOMMENDATIONS_TABLE,
+    Key: { id },
+    UpdateExpression: 'ADD votes :vote SET epoch = :epoch',
+    ExpressionAttributeValues: { ':vote': dynamoDb.createSet([who]), ':epoch': Date.now() },
+  };
+
+  dynamoDb.update(params, (error) => {
+    if (error) {
+      console.log(error);
+      res.status(400).json({ error: `Could not vote recommendation [${id}] with [${who}]` });
+    }
+    res.status(200).json({ message: `You voted [${id}] with [${who}]` });
+  });
+});
+
+app.post(`/${basePath}/remove-vote`, function (req, res) {
+  const { id, who } = req.body;
+
+  const params = {
+    TableName: RECOMMENDATIONS_TABLE,
+    Key: { id },
+    UpdateExpression: 'DELETE votes :vote',
+    ExpressionAttributeValues: { ':vote': dynamoDb.createSet([who]) },
+  };
+
+  dynamoDb.update(params, (error) => {
+    if (error) {
+      console.log(error);
+      res.status(400).json({ error: `Could not remove vote for recommendation [${id}] with [${who}]` });
+    }
+    res.status(200).json({ message: `You removed vote [${who}] in [${id}]` });
   });
 });
 module.exports.handler = serverless(app);
