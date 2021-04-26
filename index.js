@@ -4,6 +4,7 @@ const expressLayouts = require('express-ejs-layouts');
 const AWS = require('aws-sdk');
 const { v4: uuidv4 } = require('uuid');
 const app = express();
+const {define_dictionary} = require('./public/dictionary');
 
 const basePath = 'recommendations';
 
@@ -31,11 +32,13 @@ app.use(expressLayouts);
 app.set('view engine', 'ejs');
 
 app.get(`/${basePath}`, function (req, res) {
+  userLanguage = req.acceptsLanguages().toString().split(',')[0].split('-')[0];
+
   dynamoDb
     .scan({ TableName: RECOMMENDATIONS_TABLE })
     .promise()
     .then((data) => {
-      res.render('index', { recommendations: data.Items.sort((a, b) => b.epoch - a.epoch) });
+      res.render('index', { dictionary: define_dictionary(userLanguage), recommendations: data.Items.sort((a, b) => b.epoch - a.epoch) });
     })
     .catch((error) => {
       console.error(error);
@@ -120,4 +123,5 @@ app.post(`/${basePath}/remove-vote`, function (req, res) {
     res.status(200).json({ message: `You removed vote [${who}] in [${id}]` });
   });
 });
+
 module.exports.handler = serverless(app);

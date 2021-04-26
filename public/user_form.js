@@ -28,7 +28,7 @@ class UserForm extends React.Component {
           class: 'form-control',
           onChange: this.handleChange,
           value: this.state.user,
-          placeholder: 'Usuario',
+          placeholder: getUserFormPlaceholder(),
         }),
         e(
           'div',
