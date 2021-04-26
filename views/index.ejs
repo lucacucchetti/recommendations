@@ -1,10 +1,11 @@
 <div class="position-relative overflow-hidden p-4 bg-light text-left">
     <button type="button" class="btn btn-info float-right" data-toggle="modal" data-target="#userModal">
-      Tu Nombre
+      <%= dictionary.your_name %>
     </button>  
-    <h1>Recomendaciones</h1>
-    <p>¿Sin ideas de qué ver?</p>
-    <a class="btn btn-outline-secondary" id="recommendButton">Recomendar algo</a>
+    <h1><%= dictionary.page_title %></h1>
+    <p><%= dictionary.sub_title %></p>
+    <a class="btn btn-outline-secondary" id="recommendButton"><%= dictionary.recommend_something %></a>
+  </div>
 </div>
 
 <div id="recommendForm" class="d-none row col-sm-4 mx-auto">
@@ -12,12 +13,12 @@
     <div class="card bg-light m-3 form-group">
       <form action="/recommendations/create" method="POST">
         <div class="card-body">
-          <input class="card-title form-control" placeholder="Título" type="text" id="title" name="title" /><br />
-          <textarea class="form-control" class="card-text" placeholder="Descripción" id="description" name="description"></textarea><br />
+          <input class="card-title form-control" placeholder="<%= dictionary.title %>" type="text" id="title" name="title" /><br />
+          <textarea class="form-control" class="card-text" placeholder="<%= dictionary.description %>" id="description" name="description"></textarea><br />
         </div>
         <div class="card-footer">
-          <input class="form-control mb-1" type="text" placeholder="Autor" id="author" name="author" />
-          <input class="form-control btn btn-outline-primary" type="submit" value="Recomendar" />
+          <input class="form-control mb-1" type="text" placeholder="<%= dictionary.author %>" id="author" name="author" />
+          <input class="form-control btn btn-outline-primary" type="submit" value="<%= dictionary.recommend %>" />
         </div>
       </form>
     </div>
@@ -37,7 +38,7 @@
           </p>
         </div>
         <div class="card-footer text-muted">
-          <form action="/recommendations/delete" method="POST" onsubmit="return confirm('Seguro?');">
+          <form action="/recommendations/delete" method="POST" onsubmit="return confirm('<%= dictionary.sure %>');">
             <span><button class="btn float-left" type="submit"><i class="float-left bi bi-trash-fill"></i></button>
               <p class="float-right">
                 <%= recommendation.author %>
@@ -55,13 +56,13 @@
   <div class="modal-dialog modal-dialog-centered modal-sm" role="document">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel">Decinos tu nombre</h5>
+        <h5 class="modal-title" id="exampleModalLabel"><%= dictionary.tell_your_name %></h5>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
       <div class="modal-body">
-        Cuando votás los votos son en tu nombre.
+        <%= dictionary.your_name_desc %>
       </div>
       <div class="modal-footer user_form">
         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
