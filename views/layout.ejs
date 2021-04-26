@@ -2,7 +2,7 @@
 <html lang="en">
 
 <head>
-  <title>Recomendaciones</title>
+  <title><%= dictionary.page_title %></title>
   <!-- Required meta tags -->
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -43,6 +43,9 @@
       }
       function setUser(user) {
         return localStorage.setItem('cucchetti-recommendations-user', user);
+      }
+      function getUserFormPlaceholder() {
+        return '<%= dictionary.user %>';
       }
     </script>
     <!-- Load React. -->
