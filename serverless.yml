@@ -39,23 +39,8 @@ functions:
     handler: index.handler
     events:
       - http:
-          path: /recommendations
-          method: get
-      - http:
-          path: /recommendations/create
-          method: post
-      - http:
-          path: /recommendations/delete
-          method: post
-      - http:
-          path: /recommendations/vote
-          method: post
-      - http:
-          path: /recommendations/remove-vote
-          method: post
-      - http:
-          path: /recommendations/static/{proxy+}
-          method: get
+          path: /recommendations/{proxy+}
+          method: any
 
 resources:
   Resources:

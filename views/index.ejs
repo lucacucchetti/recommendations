@@ -10,7 +10,7 @@
 <div id="recommendForm" class="d-none row col-sm-4 mx-auto">
   <div class="col-sm">
     <div class="card bg-light m-3 form-group">
-      <form action="/recommendations/create" method="POST">
+      <form action="/<%= basePath %>/create" method="POST">
         <div class="card-body">
           <input class="card-title form-control" placeholder="Título" type="text" id="title" name="title" /><br />
           <textarea class="form-control" class="card-text" placeholder="Descripción" id="description" name="description"></textarea><br />
@@ -37,7 +37,7 @@
           </p>
         </div>
         <div class="card-footer text-muted">
-          <form action="/recommendations/delete" method="POST" onsubmit="return confirm('Seguro?');">
+          <form action="/<%= basePath %>/delete" method="POST" onsubmit="return confirm('Seguro?');">
             <span><button class="btn float-left" type="submit"><i class="float-left bi bi-trash-fill"></i></button>
               <p class="float-right">
                 <%= recommendation.author %>
@@ -51,11 +51,11 @@
     <% }) %>
 </div>
 
-<div class="modal fade" id="userModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div class="modal fade" id="userModal" tabindex="-1" role="dialog" aria-hidden="true">
   <div class="modal-dialog modal-dialog-centered modal-sm" role="document">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel">Decinos tu nombre</h5>
+        <h5 class="modal-title">Decinos tu nombre</h5>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
